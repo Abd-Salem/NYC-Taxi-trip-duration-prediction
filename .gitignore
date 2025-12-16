@@ -1,4 +1,8 @@
-Data / Datasets
-data/
+# Dataset
 split/
 *.csv
+
+# ===============================
+
+# Jupyter
+.ipynb_checkpoints/
