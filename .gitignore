@@ -1,8 +1,2 @@
-# Dataset
-split/
-*.csv
-
-# ===============================
-
 # Jupyter
 .ipynb_checkpoints/
