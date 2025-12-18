@@ -21,8 +21,7 @@
 - Haversine distance is calculated for trips and showed that most of trips cover 1km to 23km
 - Speed is also calculated and ranged from 10 km/h to 40 km/h over different times
 ### Date time features
-- Only records for 2016
 - Only records for months 1,2,3,4,5,6 in 2016
-- This shows narrow diversity in the data
+- This shows low diversity in the data
 - Longer trips are in summer, normal days (not weekend) with low speed (crowd streets)
 - Hours from 12pm to 5pm shows longer durations with low speed (crowd streets)
