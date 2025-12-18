@@ -6,3 +6,7 @@ split/
 
 # Jupyter
 .ipynb_checkpoints/
+
+#-----------------------
+# IDE files
+.idea/*
