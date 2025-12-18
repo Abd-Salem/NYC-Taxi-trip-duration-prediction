@@ -2,7 +2,6 @@ def load_data(train_file_path:str='split/train.csv', val_file_path:str='split/va
     '''
     :param train_file_path:
     :param val_file_path:
-    :param target_feature:
     :return: train & val data
     '''
     import pandas as pd
