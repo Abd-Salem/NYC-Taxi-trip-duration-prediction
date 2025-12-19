@@ -25,3 +25,20 @@
 - This shows low diversity in the data
 - Longer trips are in summer, normal days (not weekend) with low speed (crowd streets)
 - Hours from 12pm to 5pm shows longer durations with low speed (crowd streets)
+
+## Modeling
+---
+
+### Data Pipeline
+- spliting features to categorical and numerical
+- OneHotEncoding for categorical features
+- Quantile and standard for numeric features
+- Log transformation for target feature
+- Training data using Ridge model with alpha = 1.0
+
+### Evaluation Results
+- RMSE (validation ) = 0.48
+- R2 (validation) = 0.64
+- Mean R2 (cross validation ) = 0.64
+- Std R2 (cross validation ) = 0.002
+
