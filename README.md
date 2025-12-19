@@ -1,5 +1,4 @@
-# NYC-taxi-trip-duration-prediction
-.-.-. .-.-. .-.-.
+> # NYC-taxi-trip-duration-prediction
 
 ## Project Overview
 ---
