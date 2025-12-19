@@ -37,11 +37,11 @@
 - OneHotEncoding for categorical features
 - Quantile and standard for numeric features
 - Log transformation for target feature
-- Training data using Ridge model with alpha = 1.0
+- Training data with**Ridge model** (alpha = 1.0)
 
 ### Evaluation Results
-- RMSE (validation ) = 0.48
-- R2 (validation) = 0.64
-- Mean R2 (cross validation ) = 0.64
-- Std R2 (cross validation ) = 0.002
+- RMSE (validation ) = 0.47
+- R2 (validation) = 0.65
+- Mean R2 (cross validation ) = 0.65
+- Std R2 (cross validation ) = 0.005
 
