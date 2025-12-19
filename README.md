@@ -1,10 +1,9 @@
-> # NYC-taxi-trip-duration-prediction
-
-## Project Overview
+# NYC-taxi-trip-duration-prediction
 ---
+> ## Project Overview
 - A Kaggle competition that require a model which predict trip duration of a taxi in New York City, the collected data for this problem are geo-coordinate, pickup date & time, vendor id, passenger count, and store-and-fwd-flag.
 
-## Data Exploration Analysis
+> ## Data Exploration Analysis
 ---
 ### Trip-Duration (target feature)
 - Feature data is skewed
@@ -29,7 +28,7 @@
 - Longer trips are in summer, normal days (not weekend) with low speed (crowd streets)
 - Hours from 12pm to 5pm shows longer durations with low speed (crowd streets)
 
-## Modeling
+> ## Modeling
 ---
 ### Data Pipeline
 - spliting features to categorical and numerical
