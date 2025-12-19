@@ -37,14 +37,15 @@ def prepare_data(df):
     df['month'] = df['pickup_datetime'].dt.month
     df['quarter'] = df['pickup_datetime'].dt.quarter
     df['dayofweek'] = df['pickup_datetime'].dt.dayofweek
-    df['dayofyear'] = df['pickup_datetime'].dt.dayofyear
     df['hour'] = df['pickup_datetime'].dt.hour
+    df['rush_hour'] = df['hour'].between(12,18).astype(float)
+    df['rush_day'] = df['dayofweek'].between(2,4).astype(float)
 
     # extract season features
-    df['winter'] = df['month'].isin([12, 1, 2]).astype(float)
-    df['spring'] = df['month'].isin([3, 4, 5]).astype(float)
-    df['summer'] = df['month'].isin([6, 7, 8]).astype(float)
-    df['autumn'] = df['month'].isin([9, 8, 10]).astype(float)
+    df['winter'] = ((df['month'] == 12) | (df['month'] <= 2)).astype(float)
+    df['spring'] = df['month'].between(3, 5).astype(float)
+    df['summer'] = df['month'].between(6, 8).astype(float)
+    df['autumn'] = df['month'].between(9, 10).astype(float)
 
     # log transformation for target feature
     df['log_trip_duration'] = np.log1p(df['trip_duration'])
