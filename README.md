@@ -37,7 +37,7 @@
 - OneHotEncoding for categorical features
 - Quantile and standard for numeric features
 - Log transformation for target feature
-- Training data with**Ridge model** (alpha = 1.0)
+- Training data with **Ridge model** (alpha = 1.0)
 
 ### Evaluation Results
 - RMSE (validation ) = 0.47
