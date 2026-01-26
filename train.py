@@ -30,7 +30,7 @@ def train_ridge_model():
     other_features = ['winter', 'spring', 'summer', 'autumn', 'rush_hour', 'rush_day', '(1st/8)',
                       '(2nd/8)', '(3rd/8)','(4th/8)', '(5th/8)','(6th/8)', '(7th/8)', '(8th/8)']
 
-    train_features = features_to_encode + continuous_features + other_features
+    input_features = features_to_encode + continuous_features + other_features
 
     # one hot encoding, quantile & standard transformation for features
     col_trans = ColumnTransformer([
@@ -41,11 +41,11 @@ def train_ridge_model():
 
     # pipeline of training (transformations, model algorithm)
     pipeline = Pipeline(steps=[("col_trans", col_trans), ("model", Ridge(alpha=1, random_state=RANDOM_STATE))])
-    model = pipeline.fit(train_df[train_features], train_df[TARGET_FEATURE])
+    model = pipeline.fit(train_df[input_features], train_df[TARGET_FEATURE])
 
     # evaluate the model using metrics RMSE & r2_score
-    rmse_train, score_train = model_evaluation(model, train_df[train_features], train_df[TARGET_FEATURE])
-    rmse_val, score_val = model_evaluation(model, val_df[train_features], val_df[TARGET_FEATURE])
+    rmse_train, score_train = model_evaluation(model, train_df[input_features], train_df[TARGET_FEATURE])
+    rmse_val, score_val = model_evaluation(model, val_df[input_features], val_df[TARGET_FEATURE])
 
     print(f'RMSE(train): {rmse_train:.2f}          -   RMSE(val): {rmse_val:.2f}')
     print(f'R2 Score(train): {score_train:.2f}     -   R2 Score(val): {score_val:.2f}')
