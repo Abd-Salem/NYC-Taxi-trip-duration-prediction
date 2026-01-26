@@ -54,7 +54,7 @@ def train_ridge_model():
     # Cross Validation API shows scores & variance of different models
 
     # kf = KFold(n_splits=5, shuffle=True, random_state=RANDOM_STATE)
-    # scores = cross_val_score(pipeline, train_df[train_features], train_df[TARGET_FEATURE],
+    # scores = cross_val_score(pipeline, train_df[input_features], train_df[TARGET_FEATURE],
     #                         cv=kf, scoring='r2')
     # print(f'Scores: {scores}')
     # print(f'Mean: {scores.mean():.2f}   -   Std: {scores.std():.3f}')
