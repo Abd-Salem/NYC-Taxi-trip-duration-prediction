@@ -4,8 +4,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler, QuantileTransformer, PolynomialFeatures
 from sklearn.linear_model import Ridge
 from sklearn.model_selection import cross_val_score, KFold
-from helper import load_data, model_evaluation
-from prepare_data import prepare_data
+from helper import load_prepare_data, model_evaluation
 import joblib
 
 RANDOM_STATE = 20
@@ -15,10 +14,6 @@ TRAIN_FILE_PATH = 'split/train.csv'
 VAL_FILE_PATH = 'split/val.csv'
 
 
-def load_prepare_data(file_path):
-    df = load_data(file_path)
-    prepare_data(df)
-    return df
 
 def data_preprocessing_pipeline(use_poly_trans=False, degree=2):
     '''data preprocessing steps before training model'''
@@ -97,11 +92,11 @@ if __name__ == '__main__':
     )
 
     # show evaluation results
-    print(f'RMSE_trian: {rmse_train:.2f},   -   r2_score_train: {r2_score_train:.2f}')
-    print(f'RMSE_val: {rmse_val:.2f},   -   r2_score_val: {r2_score_val:.2f}')
+    print(f'train-RMSE: {rmse_train:.2f},   -   train-R2-score: {r2_score_train:.2f}')
+    print(f'val-RMSE: {rmse_val:.2f},   -   val-R2-score: {r2_score_val:.2f}')
     ################################################
-    # RMSE(train)=0.48,         RMSE(val)=0.48
-    # r2_score(train)=0.66      r2_score(val)=0.65
+    # train-RMSE: 0.47, -   train-R2- score: 0.65
+    # val-RMSE: 0.47,   -   val-R2-score: 0.65
     #################################################
 
     # prepare and structure how model data will be stored as an object in .pkl file
