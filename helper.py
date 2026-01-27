@@ -1,14 +1,16 @@
+from prepare_data import prepare_data
 
-def load_data(file_path):
+def load_prepare_data(file_path):
     '''
     :param file_path:
-    :return: loaded data
+    :return: loaded and prepared data
     '''
     import pandas as pd
 
-    loaded_data = pd.read_csv(file_path)
+    loaded_data = pd.read_csv(file_path)  # load data
+    prepare_data(loaded_data)       # prepare data
 
-    return loaded_data
+    return loaded_data  # data is ready for next step
 
 
 def model_evaluation(model, x, t):
