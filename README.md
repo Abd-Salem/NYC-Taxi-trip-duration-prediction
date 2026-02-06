@@ -1,11 +1,57 @@
 # ***NYC-taxi-trip-duration-prediction***
 
----
 > ## Project Overview
 ---
-- A Kaggle competition that require a model which predict trip duration of a taxi in New York City, the collected data for this problem are geo-coordinate, pickup date & time, vendor id, passenger count, and store-and-fwd-flag.
+- Predict the trip duration for taxi rides in New York City based on pickup/dropoff locations, temporal features, and trip metadata. This is a Kaggle competition focused on regression modeling.
+- Data Source: https://www.kaggle.com/competitions/nyc-taxi-trip-duration/data
+
+> ## Project Objectives
 ---
-> ## Data Exploration Analysis
+- Build a machine learning model to accurately predict taxi trip duration
+- Extract meaningful features from geo-coordinates and datetime data
+- Handle skewed distributions and outliers in the target variable
+- Create a reproducible ML pipeline from data preparation to model deployment
+
+> ## Dataset Overview
+---
+### Input Features:
+
+- Geographical: Pickup/dropoff longitude and latitude
+- Temporal: Pickup date and time
+- Metadata: Vendor ID, passenger count, store-and-forward flag
+
+### Target Variable:
+
+- trip_duration: Duration of the trip in seconds
+
+> ## Dependencies
+---
+    pip3 install -r requirements.txt
+> ## Project Structure
+---
+    NYC-Taxi-trip-duration-prediction/
+    │
+    ├── docs/                           # Documentation folder
+    │
+    ├── processed_data/
+    │   └── 1/                          # Processed data files
+    │
+    ├── split/                          # Train/test split data
+    │
+    ├── .gitattributes                  # Git attributes configuration
+    ├── .gitignore                      # Git ignore rules
+    │
+    ├── EDA-trip-duration.ipynb         # Exploratory Data Analysis notebook
+    ├── README.md                       # Project documentation
+    │
+    ├── helper.py                       # Helper functions
+    ├── load_test.py                    # Testing/loading script
+    ├── prepare_data.py                 # Data preparation pipeline
+    ├── train.py                        # Model training script
+    │
+    ├── requirements.txt                # Python dependencies
+    └── trained_model_data.pkl          # Saved trained model
+> ## Key Findings from EDA
 ---
 ### Trip-Duration (target feature)
 - Feature data is skewed
@@ -29,19 +75,21 @@
 - This shows low diversity in the data
 - Longer trips are in summer, normal days (not weekend) with low speed (crowd streets)
 - Hours from 12pm to 5pm shows longer durations with low speed (crowd streets)
----
+
 > ## Modeling
 ---
 ### Data Pipeline
-- spliting features to categorical and numerical
-- OneHotEncoding for categorical features
-- Quantile and standard for numeric features
-- Log transformation for target feature
-- Training data with **Ridge model** (alpha = 1.0)
+    1. Feature Splitting → Categorical & Numerical
+    2. Categorical Features → OneHotEncoding
+    3. Numerical Features → QuantileTransformer + StandardScaler
+    4. Target Variable → Log Transformation (np.log1p)
+    5. Model Training → Ridge Regression (alpha=1.0)
+### Model Selection:
+- Algorithm: Ridge Regression (L2 regularization)
 
 ### Evaluation Results
 - RMSE (validation ) = 0.47
 - R2 (validation) = 0.65
-- Mean R2 (cross validation ) = 0.65
-- Std R2 (cross validation ) = 0.005
+- Mean R2 (Cross-Validation ) = 0.65
+- Std R2 (Cross-Validation ) = 0.005
 
