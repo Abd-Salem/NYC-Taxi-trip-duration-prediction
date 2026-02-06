@@ -78,7 +78,6 @@ def prepare_data(df):
 
     # drop target feature & useless features
     df.drop(columns=['id','pickup_datetime'], inplace=True)  # drops
-
     return df
 
 
@@ -107,7 +106,7 @@ if __name__ == '__main__':
     processed_train.to_csv(f'{processed_data_path}/train.csv', index=False)
     processed_val.to_csv(f'{processed_data_path}/val.csv', index=True)
 
-
+    # data preparation metatdata
     processed_data_metadata = {
         'version' : version,
         'version_description' : 'Extracting & adding time features and direction degree features',
