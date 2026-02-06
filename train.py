@@ -1,17 +1,16 @@
 import numpy as np
+import pandas as pd
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler, QuantileTransformer, PolynomialFeatures
 from sklearn.linear_model import Ridge
 from sklearn.model_selection import cross_val_score, KFold
-from helper import load_prepare_data, model_evaluation
+from helper import model_evaluation
 import joblib
 
 RANDOM_STATE = 20
 np.random.seed(RANDOM_STATE)
-TARGET_FEATURE = 'log_trip_duration'
-TRAIN_FILE_PATH = 'split/train.csv'
-VAL_FILE_PATH = 'split/val.csv'
+TARGET_FEATURE = 'trip_duration'
 
 
 
@@ -41,19 +40,18 @@ def data_preprocessing_pipeline(use_poly_trans=False, degree=2):
     # all features transformation
     col_trans = ColumnTransformer([
         ('categorical', OneHotEncoder(handle_unknown='ignore', sparse_output=False), categorical_features),
-        ('continuous', transformer, continuous_features)
+        ('continuous', continuous_pipeline, continuous_features)
     ], remainder='passthrough')
 
     return input_features, col_trans
 
 
-def train_ridge_model(train_df, input_features, col_trans):
+def train_ridge_model(train_df, input_features, target_feature, col_trans):
     '''training ridge model on our data'''
     # pipeline of training (transformations, model algorithm)
     pipeline = Pipeline(steps=[("col_trans", col_trans), ("model", Ridge(alpha=1, random_state=RANDOM_STATE))])
-    model = pipeline.fit(train_df[input_features], train_df[TARGET_FEATURE])
-
-    return model, pipeline
+    model = pipeline.fit(train_df[input_features], train_df[target_feature])
+    return model
 
 def cross_validation(pipeline, x, t):
     '''Cross Validation API shows scores & variance of different models'''
@@ -67,14 +65,23 @@ def cross_validation(pipeline, x, t):
 
 if __name__ == '__main__':
 
-    train_df = load_prepare_data(TRAIN_FILE_PATH)   # load and prepare train data
-    val_df = load_prepare_data(VAL_FILE_PATH)       # load and prepare val data
+    version = 1
+    processed_train_path = f'processed_data/{version}/train.csv'
+    processed_val_path = f'processed_data/{version}/val.csv'
+
+    train_df = pd.read_csv(processed_train_path)   # load processed train data
+    val_df = pd.read_csv(processed_val_path)       # load processed val data
     input_features, col_trans = data_preprocessing_pipeline()      # data preprocessing pipeline
 
+    # log transformation for target feature
+    train_df[f'log_{TARGET_FEATURE}'] = np.log1p(train_df[TARGET_FEATURE])
+    val_df[f'log_{TARGET_FEATURE}'] = np.log1p(val_df[TARGET_FEATURE])
+
     # train model on data after preprocessing it
-    model, _ = train_ridge_model(
+    model = train_ridge_model(
         train_df,
         input_features,
+        f'log_{TARGET_FEATURE}',
         col_trans
     )
 
@@ -83,12 +90,12 @@ if __name__ == '__main__':
     rmse_train, r2_score_train =  model_evaluation(
         model,
         train_df[input_features],
-        train_df[TARGET_FEATURE]
+        train_df[f'log_{TARGET_FEATURE}']
     )
     rmse_val, r2_score_val = model_evaluation(
         model,
         val_df[input_features],
-        val_df[TARGET_FEATURE]
+        val_df[f'log_{TARGET_FEATURE}']
     )
 
     # show evaluation results
@@ -99,10 +106,10 @@ if __name__ == '__main__':
     # val-RMSE: 0.47,   -   val-R2-score: 0.65
     #################################################
 
-    # prepare and structure how model data will be stored as an object in .pkl file
+    # save model and it's metadata as .pkl file
     model_data = {
         'model': model,
-        'data_path':'split/',
+        'data_path': f'processed_data/{version}',
         'RMSE_train': rmse_train,
         'r2_score_train': r2_score_train,
         'RMSE_val': rmse_val,
