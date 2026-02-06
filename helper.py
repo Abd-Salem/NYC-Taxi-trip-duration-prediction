@@ -1,16 +1,13 @@
-from prepare_data import prepare_data
+MODEL_FILE_PATH = 'trained_model_data.pkl'
 
-def load_prepare_data(file_path):
-    '''
-    :param file_path:
-    :return: loaded and prepared data
-    '''
-    import pandas as pd
+def load_model_data():
+    '''extracting trained model data for testing'''
+    import joblib
 
-    loaded_data = pd.read_csv(file_path)  # load data
-    prepare_data(loaded_data)       # prepare data
-
-    return loaded_data  # data is ready for next step
+    model_data = joblib.load(MODEL_FILE_PATH)  # load model data
+    model = model_data['model']         # get pipeline
+    input_features = model_data['input_features_names']     # get input features
+    return model, input_features
 
 
 def model_evaluation(model, x, t):
@@ -23,5 +20,4 @@ def model_evaluation(model, x, t):
     score = r2_score(t, preds)
 
     return np.sqrt(mse), score
-
 
