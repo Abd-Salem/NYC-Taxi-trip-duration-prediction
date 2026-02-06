@@ -12,8 +12,6 @@ RANDOM_STATE = 20
 np.random.seed(RANDOM_STATE)
 TARGET_FEATURE = 'trip_duration'
 
-
-
 def data_preprocessing_pipeline(use_poly_trans=False, degree=2):
     '''data preprocessing steps before training model'''
 
@@ -118,6 +116,5 @@ if __name__ == '__main__':
         'data_processor_pipeline': col_trans,
         'random_state': RANDOM_STATE
     }
-
     # save model data
     joblib.dump(model_data, 'trained_model_data.pkl')
