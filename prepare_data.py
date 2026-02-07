@@ -59,10 +59,24 @@ def extract_direction_degree_features(df, direction_degrees_feature_name):
     df.loc[:, '(7th/8)'] = ((df[direction_degrees_feature_name] > 270.0) & (df[direction_degrees_feature_name] <= 315.0)).astype(float)
     df.loc[:, '(8th/8)'] = ((df[direction_degrees_feature_name] > 315.0) & (df[direction_degrees_feature_name] <= 360.0)).astype(float)
 
-def prepare_data(df):
-    '''prepare data before feature engineering step'''
-    import numpy as np
 
+def remove_outliers(df):
+    """removing outliers in some features according to EDA conclusion"""
+    # removing target feature outliers
+    df = df[(df['trip_duration'] > 60) & (df['trip_duration'] < 24 * 60 * 60)]
+
+    # removing Geographical features outliers
+    df = df[(df['pickup_longitude'] >= -74.26) & (df['pickup_longitude'] <= -73.70)]
+    df = df[(df['dropoff_longitude'] >= -74.26) & (df['dropoff_longitude'] <= -73.70)]
+    df = df[(df['pickup_latitude'] >= 40.50) & (df['pickup_latitude'] <= 40.92)]
+    df = df[(df['dropoff_latitude'] >= 40.50) & (df['dropoff_latitude'] <= 40.92)]
+    return df
+
+def prepare_data(df, is_remove_outliers=False):
+    '''prepare data before feature engineering step'''
+
+    if is_remove_outliers:
+        df = remove_outliers(df)
     # extract time features ( day, hour, month, quarter, ...)
     extract_time_features(df)
 
@@ -79,7 +93,6 @@ def prepare_data(df):
     # drop target feature & useless features
     df.drop(columns=['id','pickup_datetime'], inplace=True)  # drops
     return df
-
 
 if __name__ == '__main__':
     import pandas as pd
@@ -113,6 +126,31 @@ if __name__ == '__main__':
         'features_names' : processed_train.columns.tolist(),
         'train_shape' : processed_train.shape,
         'val_shape' : processed_val.shape
+    }
+
+    # save processed data metadata as .json file
+    with open(f'{processed_data_path}/metadata.json', 'w') as json_file:
+        json.dump(processed_data_metadata, json_file, indent=4)
+
+    # new version with removing outliers
+    processed_train_without_outliers = prepare_data(train_df.copy(), is_remove_outliers=True)
+    processed_val_without_outliers = prepare_data(val_df.copy(), is_remove_outliers=True)
+
+    version = 2
+    processed_data_path = f'processed_data/{version}'
+    if not os.path.exists(processed_data_path):     # check if not exist to create one
+        os.makedirs(processed_data_path)
+
+    processed_train_without_outliers.to_csv(f'{processed_data_path}/train.csv', index=False)
+    processed_val_without_outliers.to_csv(f'{processed_data_path}/val.csv', index=False)
+
+    # data preparation metatdata
+    processed_data_metadata = {
+        'version' : version,
+        'version_description' : 'Removed Outliers',
+        'features_names' : processed_train_without_outliers.columns.tolist(),
+        'train_shape' : processed_train_without_outliers.shape,
+        'val_shape' : processed_val_without_outliers.shape
     }
 
     # save processed data metadata as .json file
