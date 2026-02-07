@@ -95,10 +95,9 @@
 
 >## Future Improvements
 ---
-
-1- Advanced Models: Try Gradient Boosting (XGBoost)
-2- Feature Engineering: Add weather data, traffic patterns, holidays
-3- Hyperparameter Tuning: Grid/Random search for optimal parameters
-4- Ensemble Methods: Combine multiple models for better predictions
-5- Real-time Prediction: Deploy model as API service
+   1. Advanced Models: Try Gradient Boosting (XGBoost)
+   2. Feature Engineering: Add weather data, traffic patterns, holidays
+   3. Hyperparameter Tuning: Grid/Random search for optimal parameters
+   4. Ensemble Methods: Combine multiple models for better predictions
+   5. Real-time Prediction: Deploy model as API service
 
