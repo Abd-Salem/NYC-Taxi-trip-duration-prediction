@@ -7,11 +7,16 @@ import pandas as pd
 # files' paths
 TEST_FILE_PATH = 'split/test.csv'
 
-def model_testing():
+def model_testing(version=1):
     '''test model and return results'''
 
-    test_df = pd.read_csv(TEST_FILE_PATH)
-    processed_test_df = prepare_data(test_df) # load test data
+    test_df = pd.read_csv(TEST_FILE_PATH) # load test data
+    # prepare data according processing version
+    if version == 1:
+        processed_test_df = prepare_data(test_df)
+    else:
+        processed_test_df = prepare_data(test_df, is_remove_outliers=True) # remove outliers
+
     processed_test_df[f'log_{TARGET_FEATURE}'] = np.log1p(test_df[TARGET_FEATURE])
     model, input_features = load_model_data()   # get model and input features
     test_rmse, test_score = model_evaluation(   # evaluate model on test dataset
@@ -23,9 +28,15 @@ def model_testing():
 
 if __name__ == '__main__':
 
-    test_rmse, test_score = model_testing()     # get results
-    print(f'Test-RMSE: {test_rmse:.2f}  -   Test-R2-score: {test_score:.2f}')
-    #########################################
-    # Test-RMSE: 0.47 - Test-R2-score: 0.65 #
-    #########################################
+    test_rmse, test_score = model_testing(version=1)     # get results
+    print(f'Test-RMSE: {test_rmse:.3f}  -   Test-R2-score: {test_score:.3f}')
+    ###########################################
+    # Test-RMSE: 0.468 - Test-R2-score: 0.654 #
+    ###########################################
+    test_rmse, test_score = model_testing(version=2)    # get results
+    print(f'Test-RMSE: {test_rmse:.3f}  -   Test-R2-score: {test_score:.3f}')
+    ###########################################
+    # Test-RMSE: 0.444 - Test-R2-score: 0.648 #
+    ###########################################
+
 
