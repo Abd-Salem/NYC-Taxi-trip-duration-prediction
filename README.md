@@ -83,7 +83,6 @@
     2. Categorical Features → OneHotEncoding
     3. Numerical Features → QuantileTransformer + StandardScaler
     4. Target Variable → Log Transformation (np.log1p)
-    5. Model Training → Ridge Regression (alpha=1.0)
 ### Model Selection:
 - Algorithm: Ridge Regression (L2 regularization)
 
