@@ -35,7 +35,7 @@
     │
     ├── processed_data/
     │   └── 1/                          # Processed data files version 1
-    │   └── 2/	         # processed data files version 2
+    │   └── 2/                         # processed data files version 2
     │	 
     ├── split/                          # Train/test split data
     │
@@ -93,6 +93,11 @@
 - Mean R2 (Cross-Validation ) = 0.65
 - Std R2 (Cross-Validation ) = 0.005
 
+>## Lessons
+---
+- Polynomial features significantly worsened model performance, demonstrating that feature complexity should be driven by domain understanding, not automated transformations
+- Simple, interpretable features based on real-world relationships (haversine distance, speed calculations, temporal patterns) proved more effective than mathematically generated polynomial combinations
+- Established the principle: validate that added complexity provides measurable value before increasing model complexity
 >## Future Improvements
 ---
    1. Advanced Models: Try Gradient Boosting (XGBoost)
